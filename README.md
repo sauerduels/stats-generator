@@ -2,6 +2,14 @@
 
 Aggregator and formatter for SauerDuels stats.
 
+## Requirements
+
+The Go compiler must be installed on your system. This program additionally requires the Go package *github.com/jlouis/glicko2*, which can be installed by running the following command:
+
+```
+go get github.com/jlouis/glicko2
+```
+
 ## Input
 
 This tool takes zero or more directory paths as arguments. Each of these directories must contain one or more subdirectories whose names correspond to event stages (group, finals, ...) Each of these subdirectories must contain one or more files in the [SauerDuels server](https://github.com/sauerduels/server) stats log format (specified by the `-s` server switch).
@@ -26,6 +34,10 @@ The output is as follows:
 # Demo Stats Extractor (extractor.go)
 
 Extracts stats from demos and outputs them in the [SauerDuels server](https://github.com/sauerduels/server) stats log format.
+
+## Requirements
+
+The Go compiler must be installed on your system.
 
 ## Input
 
