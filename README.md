@@ -25,7 +25,7 @@ The output is as follows:
 
 # Demo Stats Extractor (extractor.go)
 
-Extracts stats from demos and outputs them in the SauerDuels server stats log format.
+Extracts stats from demos and outputs them in the [SauerDuels server](https://github.com/sauerduels/server) stats log format.
 
 ## Input
 
@@ -33,7 +33,7 @@ The program takes one or more .dmo files and directory paths as arguments. If an
 
 ## Output
 
-For each file or directory given as an argument, ths program creates a single file with the results of the demo(s) in the [SauerDuels server](https://github.com/sauerduels/server) stats log format.
+For each file or directory given as an argument, this program creates a single file with the results of the demo(s) in the [SauerDuels server](https://github.com/sauerduels/server) stats log format.
 
 ## Notes
 
@@ -41,7 +41,7 @@ For each file or directory given as an argument, ths program creates a single fi
 
 # Name Replacer (replace-names.sh)
 
-Replaces, in-place and recusrively, the names of players in files with their well-known counterparts, based on a predifined table.
+Replaces, in-place and recursively, the names of players in files with their well-known counterparts, based on a predefined table.
 
 ## Input
 
