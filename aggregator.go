@@ -200,7 +200,7 @@ func main() {
 
 	UpdateStats(&globalStats)
 	SetRanks(&globalStats)
-	// WriteCSV(&globalStats)
+	WriteCSV(&globalStats)
 	WriteHTML(&globalStats)
 	WriteGlobalStats()
 }
