@@ -607,8 +607,10 @@ func WriteHTML(stats *map[string]*[6]map[string]*Stats) {
 			}
 
 			tmpl, err := template.New("playerStats").Funcs(funcMap).Parse(`---
-title:  {{modename}} {{finals}}
+title:   Rankings
+section: {{modename}} {{finals}}
 ---
+<h3>Basic Stats</h3>
 <table>
   <thead>
     <tr>
@@ -626,6 +628,7 @@ title:  {{modename}} {{finals}}
   </tbody>
 </table>
 <br />
+<h3>Weapon Stats</h3>
 <table>
   <thead>
     <tr>
