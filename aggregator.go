@@ -604,6 +604,19 @@ func WriteHTML(stats *map[string]*[6]map[string]*Stats) {
 					}
 					return ""
 				},
+				"weaponAccuracy": func(s Stats, i int) string {
+					// Move chainsaw to the end
+					return fmt.Sprintf("%02.0f", s.WeaponAccuracy[(i+1)%7]*100) + "%"
+				},
+				"hasWeapon": func(i int) bool {
+					if k == 3 {
+						return i == 3 || i == 6
+					}
+					if k == 5 {
+						return i != 5
+					}
+					return true
+				},
 			}
 
 			tmpl, err := template.New("playerStats").Funcs(funcMap).Parse(`---
@@ -632,14 +645,28 @@ section: {{modename}} {{finals}}
 <table>
   <thead>
     <tr>
-      <th>Rank</th><th>Player</th><th>Accuracy</th><th>Chainsaw Accuracy</th><th>Shotgun Accuracy</th><th>CG Accuracy</th><th>RL Accuracy</th><th>Rifle Accuracy</th><th>GL Accuracy</th><th>Pistol Accuracy</th>
+      <th>Rank</th>
+      <th>Player</th>
+      <th>Accuracy</th>
+      {{if hasWeapon 0}}<th><img class="icon" src="http://sauerduels.me/images/shotgun.png" alt="Chainsaw" /></th>{{end}}
+      {{if hasWeapon 1}}<th><img class="icon" src="http://sauerduels.me/images/chaingun.png" alt="Chaingun" /></th>{{end}}
+      {{if hasWeapon 2}}<th><img class="icon" src="http://sauerduels.me/images/rocket.png" alt="Rocket Launcher" /></th>{{end}}
+      {{if hasWeapon 3}}<th><img class="icon" src="http://sauerduels.me/images/rifle.png" alt="Rifle" /></th>{{end}}
+      {{if hasWeapon 4}}<th><img class="icon" src="http://sauerduels.me/images/grenade.png" alt="Grenade Launcher" /></th>{{end}}
+      {{if hasWeapon 5}}<th><img class="icon" src="http://sauerduels.me/images/pistol.png" alt="Pistol" /></th>{{end}}
+      {{if hasWeapon 6}}<th><img class="icon" src="http://sauerduels.me/images/fist.png" alt="Chainsaw" /></th>{{end}}
     </tr>
   </thead>
   <tbody>
     {{range .}}
       {{if .Games}}
         <tr>
-          <td>{{.Rank}}</td><td class="left-align">{{.Name}}</td><td>{{percent .Accuracy}}</td>{{range .WeaponAccuracy}}<td>{{percent .}}</td>{{end}}
+          {{with $game := .}}
+            <td>{{.Rank}}</td>
+            <td class="left-align">{{.Name}}</td>
+            <td>{{percent .Accuracy}}</td>
+            {{range $index, $element := .WeaponAccuracy}}{{if hasWeapon $index}}<td>{{weaponAccuracy $game $index}}</td>{{end}}{{end}}
+          {{end}}
         </tr>
       {{end}}
     {{end}}
