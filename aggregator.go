@@ -609,9 +609,11 @@ func WriteHTML(stats *map[string]*[6]map[string]*Stats) {
 					return fmt.Sprintf("%02.0f", s.WeaponAccuracy[(i+1)%7]*100) + "%"
 				},
 				"hasWeapon": func(i int) bool {
+					// Only show rifle and chainsaw in insta
 					if k == 3 {
 						return i == 3 || i == 6
 					}
+					// Hide pistol in effic
 					if k == 5 {
 						return i != 5
 					}
