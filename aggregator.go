@@ -626,7 +626,7 @@ title:   Rankings
 section: {{modename}} {{finals}}
 ---
 <h3>Basic Stats</h3>
-<table>
+<table class="sortable">
   <thead>
     <tr>
       <th>Rank</th><th>Player</th><th>ELO</th><th>Games</th><th>Wins</th><th>Losses</th><th>Win Ratio</th><th>Frags</th><th>Deaths</th><th>K/D</th><th>Suicides</th><th>Accuracy</th>
@@ -644,7 +644,7 @@ section: {{modename}} {{finals}}
 </table>
 <br />
 <h3>Weapon Stats</h3>
-<table>
+<table class="sortable">
   <thead>
     <tr>
       <th>Rank</th>
