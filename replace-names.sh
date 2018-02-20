@@ -29,4 +29,8 @@ find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -
     -e "s/ ydahs / hades /g" \
     -e "s/ FFAisMagic / BudSpencer /g" \
     -e "s/ hadis-iwnl / hades /g" \
-    -e "s/ Tiffany / BudSpencer /g"
+    -e "s/ Tiffany / BudSpencer /g" \
+    -e "s/ boycottGrnArmor / Redon /g" \
+    -e "s/ HansLiederlich / BudSpencer /g" \
+    -e "s/ Dirtydirt / hamon /g" \
+    -e "s/ harsh / Harsh /g"

@@ -32,9 +32,12 @@ sed -i -E \
     -e "s/(yggdrasil)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/at.png\" \/> \1/g" \
     -e "s/(Phönix)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
     -e "s/(NoobGuy)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/us.png\" \/> \1/g" \
-    -e "s/(harsh)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/us.png\" \/> \1/g" \
     -e "s/(raffael)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ba.png\" \/> \1/g" \
     -e "s/(__FRY__)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ru.png\" \/> \1/g" \
     -e "s/(Morry)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ru.png\" \/> \1/g" \
     -e "s/(Mod)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
+    -e "s/(4-Tune)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
+    -e "s/(Tengrichan)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/hu.png\" \/> \1/g" \
+    -e "s/(hamon)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
+    -e "s/(Friteq)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/pl.png\" \/> \1/g" \
     $1
