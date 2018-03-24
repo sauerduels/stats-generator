@@ -42,7 +42,7 @@ sed -i -E \
     -e "s/(Friteq)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/pl.png\" \/> \1/g" \
     -e "s/(notas)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/us.png\" \/> \1/g" \
     -e "s/(Shinnok)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/nl.png\" \/> \1/g" \
-    -e "s/(Cannibal)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/es.png\" \/> \1/g" \
+    -e "s/(Cannibal)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/bg.png\" \/> \1/g" \
     -e "s/(Rotti)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
     -e "s/(Calinou)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     -e "s/(notas)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
