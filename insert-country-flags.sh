@@ -26,7 +26,7 @@ sed -i -E \
     -e "s/(ZCrone)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     -e "s/(Josh22)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/gb.png\" \/> \1/g" \
     -e "s/(greenadiss)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ua.png\" \/> \1/g" \
-    -e "s/(fatmonkeygenius)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/us.png\" \/> \1/g" \
+    -e "s/(fatmonkeygenius)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
     -e "s/(Headway)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ru.png\" \/> \1/g" \
     -e "s/(Harsh)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/us.png\" \/> \1/g" \
     -e "s/(yggdrasil)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/at.png\" \/> \1/g" \
@@ -40,4 +40,10 @@ sed -i -E \
     -e "s/(Tengrichan)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/hu.png\" \/> \1/g" \
     -e "s/(hamon)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
     -e "s/(Friteq)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/pl.png\" \/> \1/g" \
+    -e "s/(notas)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/us.png\" \/> \1/g" \
+    -e "s/(Shinnok)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/nl.png\" \/> \1/g" \
+    -e "s/(Cannibal)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/es.png\" \/> \1/g" \
+    -e "s/(Rotti)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
+    -e "s/(Calinou)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
+    -e "s/(notas)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     $1
