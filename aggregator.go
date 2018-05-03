@@ -36,7 +36,6 @@ type Game struct {
 	Mode    int
 	Map     string
 	Players []Player
-	Counts  bool
 }
 
 // Stats represents aggregated stats of one player
@@ -188,7 +187,6 @@ func main() {
 		for k := range files {
 			c.ProcessFile(files[k], stages[k])
 		}
-		c.ReduceDuplicates()
 		c.ProcessGames()
 		IntegrateStats(&c.Stats)
 		UpdateStats(&c.Stats)
@@ -289,7 +287,7 @@ func (c Collection) ProcessFile(path string, stage string) {
 		gKey := fmt.Sprintf("%s/%d", path, gTime)
 
 		if _, ok := c.Games[gKey]; !ok {
-			c.Games[gKey] = &Game{stage, gTime, gMode, gMap, make([]Player, 0), true}
+			c.Games[gKey] = &Game{stage, gTime, gMode, gMap, make([]Player, 0)}
 		}
 
 		p := Player{}
@@ -322,43 +320,6 @@ func pairString(g *Game) string {
 	}
 	sort.Strings(players)
 	return strings.Join(players, " ")
-}
-
-// ReduceDuplicates reduces games with the same players into one game
-func (c Collection) ReduceDuplicates() {
-	gamesByPlayers := make(map[string][]string)
-
-	for k, g := range c.Games {
-		pairString := pairString(g)
-		if _, ok := gamesByPlayers[pairString]; !ok {
-			gamesByPlayers[pairString] = make([]string, 0)
-		}
-		gamesByPlayers[pairString] = append(gamesByPlayers[pairString], k)
-	}
-
-	for _, games := range gamesByPlayers {
-		if len(games) > 1 {
-			wins0 := 0
-			wins1 := 0
-			for _, g := range games {
-				c.Games[g].Counts = false
-				if c.Games[g].Players[0].Frags > c.Games[g].Players[1].Frags {
-					wins0++
-				} else if c.Games[g].Players[1].Frags > c.Games[g].Players[0].Frags {
-					wins1++
-				}
-			}
-			for _, g := range games {
-				if c.Games[g].Players[0].Frags > c.Games[g].Players[1].Frags && wins0 > wins1 {
-					c.Games[g].Counts = true
-					break
-				} else if c.Games[g].Players[1].Frags > c.Games[g].Players[0].Frags && wins1 > wins0 {
-					c.Games[g].Counts = true
-					break
-				}
-			}
-		}
-	}
 }
 
 // ProcessGames extracts and aggregates Stats from c.Games
@@ -406,27 +367,26 @@ func (c Collection) ProcessGames() {
 				c.Stats[g.stage][g.Mode][p.Name].WeaponDamageDealt[i] += p.WeaponDamageDealt[i]
 			}
 		}
-		// 99999 frags is a special entry that designates the winner of a forfeited game
+		c.Stats[g.stage][g.Mode][g.Players[0].Name].Games++
+		c.Stats[g.stage][g.Mode][g.Players[1].Name].Games++
+		// 99999 frags is a special entry that designates the winner of a forfeited game,
+		// and therefor has to be ignored
 		if g.Players[0].Frags < 99999 && g.Players[1].Frags < 99999 {
-			c.Stats[g.stage][g.Mode][g.Players[0].Name].Games++
 			c.Stats[g.stage][g.Mode][g.Players[0].Name].Frags += g.Players[0].Frags
-			c.Stats[g.stage][g.Mode][g.Players[1].Name].Games++
 			c.Stats[g.stage][g.Mode][g.Players[1].Name].Frags += g.Players[1].Frags
 		}
-		if g.Players[0].Frags > g.Players[1].Frags && g.Players[0].Frags < 99999 {
+		if g.Players[0].Frags > g.Players[1].Frags {
 			c.Stats[g.stage][g.Mode][g.Players[0].Name].Wins++
 			c.Stats[g.stage][g.Mode][g.Players[1].Name].Losses++
-		} else if g.Players[1].Frags > g.Players[0].Frags && g.Players[1].Frags < 99999 {
+		} else if g.Players[1].Frags > g.Players[0].Frags {
 			c.Stats[g.stage][g.Mode][g.Players[1].Name].Wins++
 			c.Stats[g.stage][g.Mode][g.Players[0].Name].Losses++
 		}
-		if g.Counts {
-			c.Stats[g.stage][g.Mode][g.Players[0].Name].opponents = append(c.Stats[g.stage][g.Mode][g.Players[0].Name].opponents,
-				GlickoOpponentFromMatch(globalElos[g.Mode][g.Players[1].Name], g.Players[0].Frags, g.Players[1].Frags))
+		c.Stats[g.stage][g.Mode][g.Players[0].Name].opponents = append(c.Stats[g.stage][g.Mode][g.Players[0].Name].opponents,
+			GlickoOpponentFromMatch(globalElos[g.Mode][g.Players[1].Name], g.Players[0].Frags, g.Players[1].Frags))
 
-			c.Stats[g.stage][g.Mode][g.Players[1].Name].opponents = append(c.Stats[g.stage][g.Mode][g.Players[1].Name].opponents,
-				GlickoOpponentFromMatch(globalElos[g.Mode][g.Players[0].Name], g.Players[1].Frags, g.Players[0].Frags))
-		}
+		c.Stats[g.stage][g.Mode][g.Players[1].Name].opponents = append(c.Stats[g.stage][g.Mode][g.Players[1].Name].opponents,
+			GlickoOpponentFromMatch(globalElos[g.Mode][g.Players[0].Name], g.Players[1].Frags, g.Players[0].Frags))
 	}
 }
 
