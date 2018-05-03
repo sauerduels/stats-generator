@@ -15,6 +15,7 @@ find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -
     -e "s/ s3xy\|(.*?) / \1 /g" \
     -e "s/ glory\|(.*?) / \1 /g" \
     -e "s/ \.rC\|(.*?) / \1 /g" \
+    -e "s/ Oni\|(.*?) / \1 /g" \
     -e "s/ miu / greenadiss /g" \
     -e "s/ Erika / Alluro /g" \
     -e "s/ DarkFire' / DarkFire /g" \
@@ -35,4 +36,5 @@ find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -
     -e "s/ Dirtydirt / hamon /g" \
     -e "s/ harsh / Harsh /g" \
     -e "s/ fmg / fatmonkeygenius /g" \
-    -e "s/ notzarah / Zarah /g"
+    -e "s/ notzarah / Zarah /g" \
+    -e "s/ Toph / BudSpencer /g"
