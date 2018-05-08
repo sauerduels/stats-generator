@@ -47,4 +47,6 @@ sed -i -E \
     -e "s/(Calinou)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     -e "s/(1989)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     -e "s/(Zarah)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/se.png\" \/> \1/g" \
+    -e "s/(Morry)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ru.png\" \/> \1/g" \
+    -e "s/(Shikijo)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ca.png\" \/> \1/g" \
     $1
