@@ -37,4 +37,5 @@ find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -
     -e "s/ harsh / Harsh /g" \
     -e "s/ fmg / fatmonkeygenius /g" \
     -e "s/ notzarah / Zarah /g" \
-    -e "s/ Toph / BudSpencer /g"
+    -e "s/ Toph / BudSpencer /g" \
+    -e "s/ morry / Morry /g"
