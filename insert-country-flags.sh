@@ -19,7 +19,6 @@ sed -i -E \
     -e "s/(Aiurz)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ch.png\" \/> \1/g" \
     -e "s/(BenKei)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/nl.png\" \/> \1/g" \
     -e "s/(Bertolt_Brecht)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/gb.png\" \/> \1/g" \
-    -e "s/(Rudi)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/za.png\" \/> \1/g" \
     -e "s/(h8)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/in.png\" \/> \1/g" \
     -e "s/(Khornettoh)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     -e "s/(Tamin0)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/de.png\" \/> \1/g" \
@@ -47,6 +46,5 @@ sed -i -E \
     -e "s/(Calinou)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     -e "s/(1989)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/fr.png\" \/> \1/g" \
     -e "s/(Zarah)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/se.png\" \/> \1/g" \
-    -e "s/(Morry)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ru.png\" \/> \1/g" \
     -e "s/(Shikijo)/<img class=\"flag\" src=\"http:\/\/sauerduels.me\/images\/ca.png\" \/> \1/g" \
     $1
