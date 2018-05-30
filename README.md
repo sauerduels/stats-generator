@@ -63,18 +63,6 @@ One directory to be searched recursively.
 
 In-place.
 
-# Country Flag Inserter (insert-country-flags.sh)
-
-Inserts country flags into HTML files for known players.
-
-## Input
-
-One HTML file.
-
-## Output
-
-In-place.
-
 ## Notes
 
 - It is very important that you keep a backup of the file you want to run this script on. This script is destructive and may cause data corruption.
