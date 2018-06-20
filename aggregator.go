@@ -200,6 +200,7 @@ func main() {
 	SetRanks(&globalStats)
 	WriteCSV(&globalStats)
 	WriteHTML(&globalStats)
+	WriteYAML(&globalStats)
 	WriteGlobalStats()
 }
 
@@ -650,6 +651,114 @@ section: {{modename}} {{finals}}
 			}
 
 			fmt.Printf("wrote %s\n", f.Name())
+		}
+	}
+}
+
+// WriteYAML writes stats to one YAML file per mode
+func WriteYAML(stats *map[string]*[6]map[string]*Stats) {
+	for stage, stageStats := range *stats {
+		for k, modeStats := range stageStats {
+			if len(modeStats) == 0 {
+				continue
+			}
+
+			f, err := os.Create(ModeNames[k] + "_" + stage + "_stats.yml")
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer f.Close()
+
+			f2, err := os.Create(ModeNames[k] + "_" + stage + "_weapon_stats.yml")
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer f2.Close()
+			
+			funcMap := template.FuncMap{
+				"percent": func(i float32) string {
+					return fmt.Sprintf("%02.0f", i*100) + "%"
+				},
+				"trim": func(i float32) string {
+					return fmt.Sprintf("%.3f", i)
+				},
+				"modename": func() string {
+					return ModeNamesTitle[k]
+				},
+				"finals": func() string {
+					if stage == "finals" {
+						return strings.Title(stage)
+					}
+					return ""
+				},
+				"weaponAccuracy": func(s Stats, i int) string {
+					// Move chainsaw to the end
+					return fmt.Sprintf("%02.0f", s.WeaponAccuracy[(i+1)%7]*100) + "%"
+				},
+				"hasWeapon": func(i int) bool {
+					// Only show rifle and chainsaw in insta
+					if k == 3 {
+						return i == 3 || i == 6
+					}
+					// Hide pistol in effic
+					if k == 5 {
+						return i != 5
+					}
+					return true
+				},
+				"weaponName": func(i int) string {
+				    weaponNames := []string{"shotgun", "chaingun", "rocket_launcher", "rifle", "grenade_launcher", "pistol", "chainsaw"}
+					return weaponNames[i]
+				},
+			}
+
+			tmpl, err := template.New("playerStats").Funcs(funcMap).Parse(`---
+{{range .}}{{if .Games}}- rank: {{.Rank}}
+  name: "{{.Name}}"
+  elo: {{.Elo}}
+  games: {{.Games}}
+  wins: {{.Wins}}
+  losses: {{.Losses}}
+  win_ratio: {{trim .WinRate}}
+  frags: {{.Frags}}
+  deaths: {{.Deaths}}
+  kpd: {{trim .KPD}}
+  suicides: {{.Suicides}}
+  accuracy: {{percent .Accuracy}}
+{{end}}{{end}}---`)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+			tmpl2, err := template.New("playerStats").Funcs(funcMap).Parse(`---
+{{range .}}{{if .Games}}{{with $game := .}}- rank: {{.Rank}}
+  name: "{{.Name}}"
+  accuracy: {{percent .Accuracy}}
+{{range $index, $element := .WeaponAccuracy}}{{if hasWeapon $index}}  {{weaponName $index}}: {{weaponAccuracy $game $index}}
+{{end}}{{end}}{{end}}{{end}}{{end}}
+---`)
+			if err != nil {
+				log.Fatal(err)
+			}
+			
+			ps := make([]*Stats, 0)
+			for _, s := range modeStats {
+				ps = append(ps, s)
+			}
+			sort.Sort(ByElo(ps))
+
+			err = tmpl.Execute(f, ps)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			err = tmpl2.Execute(f2, ps)
+			if err != nil {
+				log.Fatal(err)
+			}
+			
+			fmt.Printf("wrote %s\n", f.Name())
+			fmt.Printf("wrote %s\n", f2.Name())
 		}
 	}
 }
