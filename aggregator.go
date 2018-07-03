@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
@@ -201,6 +202,7 @@ func main() {
 	WriteCSV(&globalStats)
 	WriteHTML(&globalStats)
 	WriteYAML(&globalStats)
+	WriteTotalYAML(&globalStats)
 	WriteGlobalStats()
 }
 
@@ -425,6 +427,7 @@ func IntegrateStats(stats *map[string]*[6]map[string]*Stats) {
 			if (*stats)[stage] == nil || len((*stats)[stage][mode]) == 0 {
 				continue
 			}
+			fmt.Println(mode, stage, len((*stats)[stage][mode]))
 			for player, stats := range modeStats {
 				if len(stats.opponents) == 0 {
 					e := globalElos[mode][player]
@@ -674,7 +677,7 @@ func WriteYAML(stats *map[string]*[6]map[string]*Stats) {
 				log.Fatal(err)
 			}
 			defer f2.Close()
-			
+
 			funcMap := template.FuncMap{
 				"percent": func(i float32) string {
 					return fmt.Sprintf("%02.0f", i*100) + "%"
@@ -707,7 +710,7 @@ func WriteYAML(stats *map[string]*[6]map[string]*Stats) {
 					return true
 				},
 				"weaponName": func(i int) string {
-				    weaponNames := []string{"shotgun", "chaingun", "rocket_launcher", "rifle", "grenade_launcher", "pistol", "chainsaw"}
+					weaponNames := []string{"shotgun", "chaingun", "rocket_launcher", "rifle", "grenade_launcher", "pistol", "chainsaw"}
 					return weaponNames[i]
 				},
 			}
@@ -740,7 +743,7 @@ func WriteYAML(stats *map[string]*[6]map[string]*Stats) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			
+
 			ps := make([]*Stats, 0)
 			for _, s := range modeStats {
 				ps = append(ps, s)
@@ -756,11 +759,82 @@ func WriteYAML(stats *map[string]*[6]map[string]*Stats) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			
+
 			fmt.Printf("wrote %s\n", f.Name())
 			fmt.Printf("wrote %s\n", f2.Name())
 		}
 	}
+}
+
+func WriteTotalYAML(stats *map[string]*[6]map[string]*Stats) {
+	f, err := os.Create("total.yml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	totalStats := make(map[string]*Stats)
+
+	for _, stageStats := range *stats {
+		for _, modeStats := range stageStats {
+			if len(modeStats) == 0 {
+				continue
+			}
+			for l, player := range modeStats {
+				if _, ok2 := totalStats[l]; !ok2 {
+					totalStats[l] = &Stats{}
+					totalStats[l].Name = player.Name
+					totalStats[l].Games = 0
+					totalStats[l].Wins = 0
+					totalStats[l].Losses = 0
+					totalStats[l].Elo = 0
+					if _, ok3 := globalElos[0][player.Name]; ok3 {
+						totalStats[l].Elo += int(globalElos[0][player.Name].R())
+					} else {
+						totalStats[l].Elo += 1000
+					}
+					if _, ok3 := globalElos[3][player.Name]; ok3 {
+						totalStats[l].Elo += int(globalElos[3][player.Name].R())
+					} else {
+						totalStats[l].Elo += 1000
+					}
+					if _, ok3 := globalElos[5][player.Name]; ok3 {
+						totalStats[l].Elo += int(globalElos[5][player.Name].R())
+					} else {
+						totalStats[l].Elo += 1000
+					}
+					totalStats[l].Elo /= 3
+				}
+				totalStats[l].Games += player.Games
+				totalStats[l].Wins += player.Wins
+				totalStats[l].Losses += player.Losses
+			}
+		}
+	}
+
+	ps := make([]*Stats, 0)
+	for _, s := range totalStats {
+		ps = append(ps, s)
+	}
+	sort.Sort(ByElo(ps))
+	counter := 1
+
+	w := bufio.NewWriter(f)
+	fmt.Fprintln(w, "---")
+	for _, player := range ps {
+		fmt.Fprintln(w, "- rank:", counter)
+		fmt.Fprintf(w, "  name: '%s'\n", player.Name)
+		fmt.Fprintln(w, "  elo:", player.Elo)
+		fmt.Fprintln(w, "  games:", player.Games)
+		fmt.Fprintln(w, "  wins:", player.Wins)
+		fmt.Fprintln(w, "  losses:", player.Losses)
+		fmt.Fprintln(w, "  win_ratio:", fmt.Sprintf("%.3f", float64(player.Wins)/float64(player.Losses)))
+		counter++
+	}
+	fmt.Fprintln(w, "---")
+
+	w.Flush()
+	fmt.Printf("wrote %s\n", f.Name())
 }
 
 // ByTime sorts Games by time
