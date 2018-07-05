@@ -722,7 +722,7 @@ func WriteYAML(stats *map[string]*[6]map[string]*Stats) {
   games: {{.Games}}
   wins: {{.Wins}}
   losses: {{.Losses}}
-  win_ratio: {{trim .WinRate}}
+  win_rate: {{trim .WinRate}}
   frags: {{.Frags}}
   deaths: {{.Deaths}}
   kpd: {{trim .KPD}}
@@ -828,7 +828,7 @@ func WriteTotalYAML(stats *map[string]*[6]map[string]*Stats) {
 		fmt.Fprintln(w, "  games:", player.Games)
 		fmt.Fprintln(w, "  wins:", player.Wins)
 		fmt.Fprintln(w, "  losses:", player.Losses)
-		fmt.Fprintln(w, "  win_ratio:", fmt.Sprintf("%.3f", float64(player.Wins)/float64(player.Losses)))
+		fmt.Fprintln(w, "  win_rate:", fmt.Sprintf("%.3f", float64(player.Wins)/float64(player.Games)))
 		counter++
 	}
 	fmt.Fprintln(w, "---")
