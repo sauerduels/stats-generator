@@ -20,6 +20,9 @@ find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -
     -e "s/ \[sQ\](.*?) / \1 /g" \
     -e "s/ (.*?)\[sQ\] / \1 /g" \
     -e "s/ (.*?)=MyS= / \1 /g" \
+    -e "s/ (.*?)=Mys= / \1 /g" \
+    -e "s/ \]RS\[(.*?) / \1 /g" \
+    -e "s/ RED\|(.*?) / \1 /g" \
     -e "s/ miu / greenadiss /g" \
     -e "s/ Erika / Alluro /g" \
     -e "s/ DarkFire' / DarkFire /g" \
@@ -48,4 +51,7 @@ find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -
     -e "s/ Homoteq / Friteq /g" \
     -e "s/ IdgaF / Friteq /g" \
     -e "s/ ffaplayer_84 / ZCrone /g" \
-    -e "s/ udderllama / swatllama /g"
+    -e "s/ udderllama / swatllama /g" \
+    -e "s/ a\!m / A\!M /g" \
+    -e "s/ draco / hades /g" \
+    -e "s/ Brechwurzel / BudSpencer /g"
