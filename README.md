@@ -1,39 +1,70 @@
-# Stats Aggregator (aggregator.go)
+# Stats Aggregator 2
 
-Aggregator and formatter for SauerDuels stats.
+Aggregator for SauerDuels stats.
+
+```
+python aggregate.py
+```
 
 ## Requirements
 
-The Go compiler must be installed on your system. This program additionally requires the Go package *github.com/jlouis/glicko2*, which can be installed by running the following command:
+Python 3 must be installed on your system. This program additionally requires several additional Python packages which can be installed using pip with the following commands:
 
 ```
-go get github.com/jlouis/glicko2
+pip install pandas
+pip install pyyaml
 ```
 
 ## Input
 
-This tool takes zero or more directory paths as arguments. Each of these directories must contain one or more subdirectories whose names correspond to event stages (group, finals, ...) Each of these subdirectories must contain one or more files in the [SauerDuels server](https://github.com/sauerduels/server) stats log format (specified by the `-s` server switch).
+This tool requires the *logs* directoy to be present in the working directory. This directory must contain several directories names after SauerDuels events (*sd01*, *sd02*, ...), each of which must contain one or more files in the [SauerDuels server](https://github.com/sauerduels/server) stats log csv format (specified by the `-s` server switch).
 
-If given no arguments, the program simply rewrites the CSV and HTML files based on the data in *state.json*.
+Forfeits in server logs are represented by games in the same stats log format, but with all stats set to 0 except the frags of the winning player, which are set to any value greater than or equal to `1000`. These can be placed in their own csv file.
+
+It also requires the file *events.yml* to be present in the working directory. It is a yaml file exported by the challonge crawler.
 
 ## Output
 
 The output is as follows:
 
-- **state.json**: Contains the entire state of player stats. This file is typically only useful for internal use by the program, and should be deleted if you wish to clear old stats and start over.
-- **[mode]_[group].html**: A portion of an HTML file containing only two `<table>` elements with player stats in each *[mode]* and *[group]*, and a front matter with a `title` value for use with Jekyll.
-- **[mode]_[group].csv**: A CSV file of player stats in each *[mode]* and *[group]*.
+- **output/[ffa|insta|effic]/stats.yml**: Mode rankings in yaml format.
+- **output/[ffa|insta|effic]/weapon_stats.yml**: Mode weapon stats in yaml format.
+- **output/total/stats.yml**: Cumulative rankings in yaml format.
 
-## Notes
+The contents of the *output* directory can be placed directly in the *_data* subdirectory of the [SauerDuels website](https://github.com/sauerduels/website) repo.
 
-- Directories (aka events) are always processed in the order in which they appear in the argument list.
-- Forfeits are represented by games in the same stats log format, but with all stats set to 0 except the frags of the winning player, which are set to `99999`.
-- You can add new events simply by running the program with the new event directory as an argument, as long as *state.json* is intact.
-- Do **not** run the program on the same event directory more than once, or else stats are duplicated.
+# Challonge Crawler
 
-# Demo Stats Extractor (extractor.go)
+Given the url of a domain on challonge, this script crawls the index page and the pages of every completed event, extracts player names organized by event and group, and dumps them into a yaml file.
 
-Extracts stats from demos and outputs them in the [SauerDuels server](https://github.com/sauerduels/server) stats log format.
+```
+python crawl_challonge.py
+```
+
+## Requirements
+
+Python 3 must be installed on your system. This program additionally requires an additional Python packages which can be installed using pip with the following command:
+
+```
+pip install pyyaml
+pip install BeautifulSoup4
+```
+
+## Input
+
+In *crawl_challonge.py* change `base_url` to the desired challonge url of the format `https://{domain}.challonge.com/`.
+
+## Output
+
+*events.yml*.
+
+# Demo Stats Extractor
+
+Extracts stats from demos and dumps them in the [SauerDuels server](https://github.com/sauerduels/server) stats log format.
+
+```
+go run extractor.go DEMO_1|DIRECTORY_1 [DEMO_2|DIRECTORY_2]
+```
 
 ## Requirements
 
@@ -51,9 +82,13 @@ For each file or directory given as an argument, this program creates a single f
 
 - There is a bug with overtime handling. Games with overtime will appear as if intermission had occurred instead of the first overtime.
 
-# Name Replacer (replace-names.sh)
+# Name Replacer
 
-Replaces, in-place and recursively, the names of players in files with their well-known counterparts, based on a predefined table.
+Replaces, in-place and recursively, the names of players in files with their recognized counterparts, based on a predefined map.
+
+```
+replace-names.sh DIRECTORY
+```
 
 ## Input
 
@@ -65,4 +100,4 @@ In-place.
 
 ## Notes
 
-- It is very important that you keep a backup of the file you want to run this script on. This script is destructive and may cause data corruption.
+- It is very important that you keep a backup of the file(s) on which you wish to run this script. It is destructive and may lead to data corruption.
