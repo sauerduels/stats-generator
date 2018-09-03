@@ -44,8 +44,8 @@ for link in links:
         
         participants = soup.find_all('td', 'participant')
         for participant in participants:
-            participant_list.append(participant.text.strip().replace('\\xC3\\xB6', '\\xF6')
-            
+            participant_list.append(participant.text.strip().replace('\\xC3\\xB6', '\\xF6'))
+        
         output[sd_name].append(participant_list)
 
 with open('events.yml', 'w') as file:
