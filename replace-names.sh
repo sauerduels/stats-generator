@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -E \
+find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -E \
     -e "s/ (.*?)\|sp4nk\| / \1 /g" \
     -e "s/ (.*?)\|sp4nk / \1 /g" \
     -e "s/ w00p\|(.*?) / \1 /g" \
@@ -58,4 +58,6 @@ find $1 -type f \( -name '*.log' -o -name '*.ssv' \) -print0 | xargs -0 sed -i -
     -e "s/ draco / hades /g" \
     -e "s/ Brechwurzel / BudSpencer /g" \
     -e "s/ M0D / Mod /g" \
-    -e "s/ Tophy / BudSpencer /g"
+    -e "s/ Tophy / BudSpencer /g" \
+    -e "s/ dirtbag / A!M /g" \
+    -e "s/ мaмбa / Partizan /g"
