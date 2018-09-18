@@ -34,7 +34,7 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ nyamms / Redon /g" \
     -e "s/ ComplexGuy / NoobGuy /g" \
     -e "s/ s3xyest\|NoobGuy / NoobGuy /g" \
-    -e "s/ KenhSix / Aiurz /g" \
+    -e "s/ Aiurz / KenhSix /g" \
     -e "s/ hadis / hades /g" \
     -e "s/ ydahs / hades /g" \
     -e "s/ FFAisMagic / BudSpencer /g" \
