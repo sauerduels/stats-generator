@@ -147,8 +147,7 @@ for event_name in events_names:
     # validate game groups. this guards against missing forfeits
     vaidation_error = validate_groups(event_name, games)
     if vaidation_error:
-        print('Error in {} groups: {}'.format(event_name, vaidation_error))
-        sys.exit(1)
+        print('Warning in {} groups: {}'.format(event_name, vaidation_error))
     
     # rate glicko2 for event
     for player in rating_series:
