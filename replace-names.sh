@@ -60,4 +60,10 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ M0D / Mod /g" \
     -e "s/ Tophy / BudSpencer /g" \
     -e "s/ dirtbag / A!M /g" \
-    -e "s/ мaмбa / Partizan /g"
+    -e "s/ мaмбa / Partizan /g" \
+    -e "s/ Skillzful / Skillz /g" \
+    -e "s/ B.Brecht / Bertolt_Brecht /g" \
+    -e "s/ r4 / Ren4rd /g" \
+    -e "s/ #FreeJawer / Khornettoh /g" \
+    -e "s/ Artist / raffael /g" \
+    -e "s/ DM-BUG / bug /g"
