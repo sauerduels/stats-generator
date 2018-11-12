@@ -4,6 +4,7 @@ from yaml import load, dump
 import re
 
 base_url = 'https://sauerduels.challonge.com/'
+excluded = ['sd22']
 links = []
 output = {}
 
@@ -28,6 +29,8 @@ for i in range(1, 100):
 for link in links:
     sd_pos = len(base_url)
     sd_name = link[sd_pos:sd_pos+4]
+    if sd_name in excluded:
+        continue
     output[sd_name] = []
     
     print('Donwloading {}'.format(link))
