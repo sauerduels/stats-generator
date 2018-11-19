@@ -30,23 +30,23 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ DarkFire' / DarkFire /g" \
     -e "s/ Yggdrasil / yggdrasil /g" \
     -e "s/ Nexus / Josh22 /g" \
-    -e "s/ Charizard / BudSpencer /g" \
+    -e "s/ Charizard / Toph /g" \
     -e "s/ nyamms / Redon /g" \
     -e "s/ ComplexGuy / NoobGuy /g" \
     -e "s/ s3xyest\|NoobGuy / NoobGuy /g" \
     -e "s/ Aiurz / KenhSix /g" \
     -e "s/ hadis / hades /g" \
     -e "s/ ydahs / hades /g" \
-    -e "s/ FFAisMagic / BudSpencer /g" \
+    -e "s/ FFAisMagic / Toph /g" \
     -e "s/ hadis-iwnl / hades /g" \
-    -e "s/ Tiffany / BudSpencer /g" \
+    -e "s/ Tiffany / Toph /g" \
     -e "s/ boycottGrnArmor / Redon /g" \
-    -e "s/ HansLiederlich / BudSpencer /g" \
+    -e "s/ HansLiederlich / Toph /g" \
     -e "s/ Dirtydirt / hamon /g" \
     -e "s/ harsh / Harsh /g" \
     -e "s/ fmg / fatmonkeygenius /g" \
     -e "s/ notzarah / Zarah /g" \
-    -e "s/ Toph / BudSpencer /g" \
+    -e "s/ BudSpencer / Toph /g" \
     -e "s/ morry / Morry /g" \
     -e "s/ entropy / Jason /g" \
     -e "s/ homokio / Lokio /g" \
@@ -56,9 +56,9 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ udderllama / swatllama /g" \
     -e "s/ a\!m / A\!M /g" \
     -e "s/ draco / hades /g" \
-    -e "s/ Brechwurzel / BudSpencer /g" \
+    -e "s/ Brechwurzel / Toph /g" \
     -e "s/ M0D / Mod /g" \
-    -e "s/ Tophy / BudSpencer /g" \
+    -e "s/ Tophy / Toph /g" \
     -e "s/ dirtbag / A!M /g" \
     -e "s/ мaмбa / Partizan /g" \
     -e "s/ Skillzful / Skillz /g" \
@@ -66,4 +66,5 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ r4 / Ren4rd /g" \
     -e "s/ #FreeJawer / Khornettoh /g" \
     -e "s/ Artist / raffael /g" \
-    -e "s/ DM-BUG / bug /g"
+    -e "s/ DM-BUG / bug /g" \
+    -e "s/ ffaplayer_79 / Bertolt_Brecht /g"
