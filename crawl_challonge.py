@@ -4,7 +4,7 @@ from yaml import load, dump
 import re
 
 base_url = 'https://sauerduels.challonge.com/'
-excluded = ['sd22']
+excluded = ['sd22', 'sd23']
 links = []
 output = {}
 
