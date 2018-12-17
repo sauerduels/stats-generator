@@ -211,12 +211,14 @@ combined_stats['win_rate'] = (combined_stats['wins']/combined_stats['games']).ro
 # round integral columns
 combined_stats[['elo', 'games', 'losses', 'wins']] = combined_stats[['elo', 'games', 'losses', 'wins']].round(0).astype(int)
 
-# delete output directory
-shutil.rmtree('output')
-# create total stats output directory
-os.makedirs(os.path.join('output', 'total'))
+# recreate output directory
+try:
+    shutil.rmtree('output')
+except:
+    pass
+os.mkdir('output')
 # save total stats to file
-with open(os.path.join('output', 'total', 'stats.yml'), 'w') as file:
+with open(os.path.join('output', 'total.yml'), 'w') as file:
     # begin front matter
     file.write('---\n')
     dump(json.loads(combined_stats.to_json(orient='records')), file, default_flow_style=False)
@@ -229,6 +231,8 @@ def as_percentage(series1, series2):
 def export_stats_yaml(mode_name, mode_stats):
     # reset index to allow player column to be exported
     mode_stats = mode_stats.copy().reset_index()
+    mode_stats_copy = mode_stats.copy().reset_index()
+    
     # rename player column to name
     mode_stats = mode_stats.rename(columns={'player': 'name'})
     # calculate win_rate (= wins / losses)
@@ -243,8 +247,31 @@ def export_stats_yaml(mode_name, mode_stats):
     mode_stats[['elo', 'games', 'losses', 'wins']] = mode_stats[['elo', 'games', 'losses', 'wins']].round(0).astype(int)
     # select columns to export
     mode_stats = mode_stats[['rank', 'name', 'elo', 'games', 'wins', 'losses', 'win_rate', 'frags', 'deaths', 'kpd', 'suicides', 'accuracy']]
+    
+    # account for division by zero. since we know damage_dealt is less than or equal to damage for
+    # any given weapon, we can simply substitute damage for 1 and the results will be 0/1 = 0
+    mode_stats_copy.loc[mode_stats_copy['damage'] == 0, 'damage'] = 1
+    mode_stats_copy.loc[mode_stats_copy['damage_0'] == 0, 'damage_0'] = 1
+    mode_stats_copy.loc[mode_stats_copy['damage_1'] == 0, 'damage_1'] = 1
+    mode_stats_copy.loc[mode_stats_copy['damage_2'] == 0, 'damage_2'] = 1
+    mode_stats_copy.loc[mode_stats_copy['damage_4'] == 0, 'damage_4'] = 1
+    mode_stats_copy.loc[mode_stats_copy['damage_5'] == 0, 'damage_5'] = 1
+    mode_stats_copy.loc[mode_stats_copy['damage_3'] == 0, 'damage_3'] = 1
+    mode_stats_copy.loc[mode_stats_copy['damage_6'] == 0, 'damage_6'] = 1
+    # calculate accuracy for every weapon (= damage_dealt / damage) * 100 + '%'
+    mode_stats['accuracy'] = as_percentage(mode_stats_copy['damage_dealt'], mode_stats_copy['damage'])
+    if mode_name != 'insta':
+        mode_stats['shotgun'] = as_percentage(mode_stats_copy['damage_dealt_1'], mode_stats_copy['damage_1'])
+        mode_stats['chaingun'] = as_percentage(mode_stats_copy['damage_dealt_2'], mode_stats_copy['damage_2'])
+        mode_stats['rocket_launcher'] = as_percentage(mode_stats_copy['damage_dealt_3'], mode_stats_copy['damage_3'])
+        mode_stats['grenade_launcher'] = as_percentage(mode_stats_copy['damage_dealt_5'], mode_stats_copy['damage_5'])
+    if mode_name == 'ffa':
+        mode_stats['pistol'] = as_percentage(mode_stats_copy['damage_dealt_6'], mode_stats_copy['damage_6'])
+    mode_stats['rifle'] = as_percentage(mode_stats_copy['damage_dealt_4'], mode_stats_copy['damage_4'])
+    mode_stats['chainsaw'] = as_percentage(mode_stats_copy['damage_dealt_0'], mode_stats_copy['damage_0'])
+    
     # write result to file
-    with open(os.path.join('output', mode_name, 'stats.yml'), 'w') as file:
+    with open(os.path.join('output', '{}.yml'.format(mode_name)), 'w') as file:
         # begin front matter
         file.write('---\n')
         # yaml
@@ -252,48 +279,8 @@ def export_stats_yaml(mode_name, mode_stats):
         # end front matter
         file.write('---')
 
-def export_weapon_stats_yaml(mode_name, mode_stats):
-    mode_stats = mode_stats.copy().reset_index()
-    weapon_stats = pd.DataFrame()
-    weapon_stats['name'] = mode_stats['player']
-    weapon_stats['rank'] = mode_stats['rank']
-    # account for division by zero. since we know damage_dealt is less than or equal to damage for
-    # any given weapon, we can simply substitute damage for 1 and the results will be 0/1 = 0
-    mode_stats.loc[mode_stats['damage'] == 0, 'damage'] = 1
-    mode_stats.loc[mode_stats['damage_0'] == 0, 'damage_0'] = 1
-    mode_stats.loc[mode_stats['damage_1'] == 0, 'damage_1'] = 1
-    mode_stats.loc[mode_stats['damage_2'] == 0, 'damage_2'] = 1
-    mode_stats.loc[mode_stats['damage_4'] == 0, 'damage_4'] = 1
-    mode_stats.loc[mode_stats['damage_5'] == 0, 'damage_5'] = 1
-    mode_stats.loc[mode_stats['damage_3'] == 0, 'damage_3'] = 1
-    mode_stats.loc[mode_stats['damage_6'] == 0, 'damage_6'] = 1
-    # calculate accuracy for every weapon (= damage_dealt / damage) * 100 + '%'
-    weapon_stats['accuracy'] = as_percentage(mode_stats['damage_dealt'], mode_stats['damage'])
-    if mode_name != 'insta':
-        weapon_stats['shotgun'] = as_percentage(mode_stats['damage_dealt_1'], mode_stats['damage_1'])
-        weapon_stats['chaingun'] = as_percentage(mode_stats['damage_dealt_2'], mode_stats['damage_2'])
-        weapon_stats['rocket_launcher'] = as_percentage(mode_stats['damage_dealt_3'], mode_stats['damage_3'])
-        weapon_stats['grenade_launcher'] = as_percentage(mode_stats['damage_dealt_5'], mode_stats['damage_5'])
-    if mode_name == 'ffa':
-        weapon_stats['pistol'] = as_percentage(mode_stats['damage_dealt_6'], mode_stats['damage_6'])
-    weapon_stats['rifle'] = as_percentage(mode_stats['damage_dealt_4'], mode_stats['damage_4'])
-    weapon_stats['chainsaw'] = as_percentage(mode_stats['damage_dealt_0'], mode_stats['damage_0'])
-    # sort by rank and name
-    weapon_stats = weapon_stats.sort_values(['rank', 'name'], ascending=[True, True])
-    # write result to file
-    with open(os.path.join('output', mode_name, 'weapon_stats.yml'), 'w') as file:
-        # begin front matter
-        file.write('---\n')
-        # yaml
-        dump(json.loads(weapon_stats.to_json(orient='records')), file, default_flow_style=False)
-        # end front matter
-        file.write('---')
-
 for mode in total_stats:
     mode_name = mode_names[mode]
-    # create mode stats output directory
-    os.makedirs(os.path.join('output', mode_name))
     # export mode stats
     export_stats_yaml(mode_name, total_stats[mode])
-    export_weapon_stats_yaml(mode_name, total_stats[mode])
 
