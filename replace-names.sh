@@ -25,6 +25,8 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ \]RS\[(.*?) / \1 /g" \
     -e "s/ RED\|(.*?) / \1 /g" \
     -e "s/ 6.0'(.*?) / \1 /g" \
+    -e "s/ cH'(.*?) / \1 /g" \
+    -e "s/ \[MLP\](.*?) / \1 /g" \
     -e "s/ miu / greenadiss /g" \
     -e "s/ Erika / Alluro /g" \
     -e "s/ DarkFire' / DarkFire /g" \
@@ -67,4 +69,5 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ #FreeJawer / Khornettoh /g" \
     -e "s/ Artist / raffael /g" \
     -e "s/ DM-BUG / bug /g" \
-    -e "s/ ffaplayer_79 / Bertolt_Brecht /g"
+    -e "s/ ffaplayer_79 / Bertolt_Brecht /g" \
+    -e "s/ Zaz / Zarah /g"
