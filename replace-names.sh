@@ -70,4 +70,5 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ Artist / raffael /g" \
     -e "s/ DM-BUG / bug /g" \
     -e "s/ ffaplayer_79 / Bertolt_Brecht /g" \
-    -e "s/ Zaz / Zarah /g"
+    -e "s/ Zaz / Zarah /g" \
+    -e "s/ sickllama / swatllama /g"
