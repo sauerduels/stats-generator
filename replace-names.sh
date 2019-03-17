@@ -28,6 +28,8 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ 6.0'(.*?) / \1 /g" \
     -e "s/ cH'(.*?) / \1 /g" \
     -e "s/ \[MLP\](.*?) / \1 /g" \
+    -e "s/ (.*?)\|tee\| / \1 /g" \
+    -e "s/ sync'(.*?) / \1 /g" \
     -e "s/ miu / greenadiss /g" \
     -e "s/ Erika / Alluro /g" \
     -e "s/ DarkFire' / DarkFire /g" \
@@ -75,4 +77,5 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ sickllama / swatllama /g" \
     -e "s/ Fixxxer / FixxxerSA /g" \
     -e "s/ drip.sp4nk / hades /g" \
-    -e "s/ ffa_friend_91 / Bertolt_Brecht /g"
+    -e "s/ ffa_friend_91 / Bertolt_Brecht /g" \
+    -e "s/ Razvan / razvan /g"
