@@ -3,6 +3,7 @@
 find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -E \
     -e "s/ (.*?)\|sp4nk\| / \1 /g" \
     -e "s/ (.*?)\|sp4nk / \1 /g" \
+    -e "s/ (.*?)\.sp4nk / \1 /g" \
     -e "s/ w00p\|(.*?) / \1 /g" \
     -e "s/ \!s\](.*?) / \1 /g" \
     -e "s/ xS'(.*?) / \1 /g" \
@@ -30,8 +31,11 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ \[MLP\](.*?) / \1 /g" \
     -e "s/ (.*?)\|tee\| / \1 /g" \
     -e "s/ sync'(.*?) / \1 /g" \
+    -e "s/ \}TC\{(.*?) / \1 /g" \
     -e "s/ miu / greenadiss /g" \
     -e "s/ Erika / Alluro /g" \
+    -e "s/ Elisabeth / Alluro /g" \
+    -e "s/ slimt / Alluro /g" \
     -e "s/ DarkFire' / DarkFire /g" \
     -e "s/ Yggdrasil / yggdrasil /g" \
     -e "s/ Nexus / Josh22 /g" \
@@ -83,4 +87,9 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ FuckLag / Khornettoh /g" \
     -e "s/ Fabiven / Tamin0 /g" \
     -e "s/ saXi / Zarah /g" \
-    -e "s/ sketch / Galaxy /g"
+    -e "s/ sketch / Galaxy /g" \
+    -e "s/ Hachi / 1989 /g" \
+    -e "s/ HachiJuKyu / 1989 /g" \
+    -e "s/ Ugluslulmulmus / MX_RootFroot /g" \
+    -e "s/ (XRP)Satoshi / Shinnok /g" \
+    -e "s/ Josh / Josh22 /g"
