@@ -2,17 +2,18 @@ import pandas as pd
 import glob
 import os
 import sys
-from yaml import load, dump
+from yaml import load, dump, SafeLoader
 import json
 import shutil
 from glicko2 import Glicko2, WIN, DRAW, LOSS
+import csv
 
 banned_players = ['Rudi']
 mode_names = {'0': 'ffa', '3': 'insta', '5': 'effic'}
 groups = None
 
 with open('events.yml', 'r') as file:
-    groups = load(file)
+    groups = load(file, Loader=SafeLoader)
 
 def validate_event(event_dataframe):
     # make sure that only one mode is played in one event
@@ -226,7 +227,7 @@ with open(os.path.join('output', 'total.yml'), 'w') as file:
     file.write('---')
 
 def as_percentage(series1, series2):
-    return (((series1/series2) * 100).round(0).astype(int).astype(str) + '%').apply(lambda x: x.zfill(3))
+    return (((series1/series2.fillna(1)) * 100).round(0).astype(int).astype(str) + '%').apply(lambda x: x.zfill(3))
 
 def export_stats_yaml(mode_name, mode_stats):
     # reset index to allow player column to be exported
@@ -240,7 +241,7 @@ def export_stats_yaml(mode_name, mode_stats):
     # calculate kpd (= frags / deaths)
     mode_stats['kpd'] = (mode_stats['frags']/mode_stats['deaths']).round(3)
     # account for division by zero
-    mode_stats.loc[mode_stats['damage'] == 0, 'damage'] = 1
+    #mode_stats.loc[mode_stats['damage'] == 0, 'damage'] = 1
     # calculate accuracy (= damage_dealt / damage) * 100 + '%'
     mode_stats['accuracy'] = as_percentage(mode_stats['damage_dealt'], mode_stats['damage'])
     # round integral columns
