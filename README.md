@@ -17,7 +17,7 @@ pip install pyyaml
 
 ## Input
 
-This tool requires the *logs* directoy to be present in the working directory. This directory must contain several directories names after SauerDuels events (*sd01*, *sd02*, ...), each of which must contain one or more files in the [SauerDuels server](https://github.com/sauerduels/server) stats log csv format (specified by the `-s` server switch).
+This tool requires the *logs* directoy to be present in the working directory. This directory must contain several directories names after SauerDuels events (*sd01*, *sd02*, ...), each of which must contain one or more files in the [SauerDuels server](https://github.com/sauerduels/sauer-server) stats log csv format (specified by the `-s` server switch).
 
 Forfeits in server logs are represented by games in the same stats log format, but with all stats set to 0 except the frags of the winning player, which are set to any value greater than or equal to `1000`. These can be placed in their own csv file.
 
@@ -60,7 +60,7 @@ In *crawl_challonge.py* change `base_url` to the desired challonge url of the fo
 
 # Demo Stats Extractor
 
-Extracts stats from demos and dumps them in the [SauerDuels server](https://github.com/sauerduels/server) stats log format.
+Extracts stats from demos and dumps them in the [SauerDuels server](https://github.com/sauerduels/sauer-server) stats log format.
 
 ```
 go run extractor.go DEMO_1|DIRECTORY_1 [DEMO_2|DIRECTORY_2]
