@@ -99,4 +99,5 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ \|HPP\|Satoshi / Shinnok /g" \
     -e "s/ Twitcher / Mod /g" \
     -e "s/ lexar / Lexar /g" \
-    -e "s/ fftay / Tay|Z /g"
+    -e "s/ fftay / Tay|Z /g" \
+    -e "s/ zatozi\.hpp / Shinnok /g"
