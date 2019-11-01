@@ -81,7 +81,7 @@ def add_stats(player_row, win):
     stats[game_mode][player_name].append(player_stats)
     # create player's glicko2 entry if not exists
     if player_name not in ratings[game_mode]:
-        ratings[game_mode][player_name] = glicko2_env.create_rating(1500, 300, 0.06)
+        ratings[game_mode][player_name] = glicko2_env.create_rating(1500, 350, 0.06)
 
 # get names of all events in logs directory
 events_names = sorted([d for d in os.listdir('logs')])
