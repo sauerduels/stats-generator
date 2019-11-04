@@ -3,7 +3,7 @@
 Aggregator for SauerDuels stats.
 
 ```
-python aggregate.py
+python3 aggregate.py
 ```
 
 ## Requirements
@@ -11,8 +11,8 @@ python aggregate.py
 Python 3 must be installed on your system. This program additionally requires several additional Python packages which can be installed using pip with the following commands:
 
 ```
-pip install pandas
-pip install pyyaml
+pip3 install pandas
+pip3 install pyyaml
 ```
 
 ## Input
@@ -38,7 +38,7 @@ The contents of the *output* directory can be placed directly in the *_data* sub
 Given the url of a domain on challonge, this script crawls the index page and the pages of every completed event, extracts player names organized by event and group, and dumps them into a yaml file.
 
 ```
-python crawl_challonge.py
+python3 crawl_challonge.py
 ```
 
 ## Requirements
@@ -46,8 +46,8 @@ python crawl_challonge.py
 Python 3 must be installed on your system. This program additionally requires an additional Python packages which can be installed using pip with the following command:
 
 ```
-pip install pyyaml
-pip install BeautifulSoup4
+pip3 install pyyaml
+pip3 install BeautifulSoup4
 ```
 
 ## Input
