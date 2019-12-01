@@ -82,7 +82,7 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ drip.sp4nk / hades /g" \
     -e "s/ ffa_friend_91 / Bertolt_Brecht /g" \
     -e "s/ Razvan / razvan /g" \
-    -e "s/ kinnyi / Phönix /g" \
+    -e "s/ Phönix / kinnyi /g" \
     -e "s/ FuckLag / Khornettoh /g" \
     -e "s/ Fabiven / Tamin0 /g" \
     -e "s/ saXi / Zarah /g" \
@@ -90,13 +90,14 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ Hachi / 1989 /g" \
     -e "s/ HachiJuKyu / 1989 /g" \
     -e "s/ Ugluslulmulmus / MX_RootFroot /g" \
-    -e "s/ \(XRP\)Satoshi / Shinnok /g" \
+    -e "s/ \(XRP\)Satoshi / Satoshi /g" \
     -e "s/ Josh / Josh22 /g" \
     -e "s/ dailysex / echo-echo /g" \
     -e "s/ ikcakiztoK / Kotzikacki /g" \
     -e "s/ DarkWolf215 / DarkWolf /g" \
-    -e "s/ \|HPP\|Satoshi / Shinnok /g" \
+    -e "s/ \|HPP\|Satoshi / Satoshi /g" \
     -e "s/ Twitcher / Mod /g" \
     -e "s/ lexar / Lexar /g" \
     -e "s/ fftay / Tay|Z /g" \
-    -e "s/ zatozi\.hpp / Shinnok /g"
+    -e "s/ zatozi\.hpp / Satoshi /g" \
+    -e "s/ Shinnok / Satoshi /g" \
