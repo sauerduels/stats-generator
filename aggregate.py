@@ -8,12 +8,8 @@ import shutil
 from glicko2 import Glicko2, WIN, DRAW, LOSS
 import csv
 
-banned_players = ['Rudi']
+banned_players = ['Rudi', 'raffael']
 mode_names = {'0': 'ffa', '3': 'insta', '5': 'effic'}
-groups = None
-
-with open('events.yml', 'r') as file:
-    groups = load(file, Loader=SafeLoader)
 
 def validate_event(event_dataframe):
     # make sure that only one mode is played in one event
@@ -42,20 +38,6 @@ def validate_player(player_name, player_set, group):
     
     return None
 
-def validate_groups(event_name, games):
-    # check that we have group info for event
-    if event_name not in groups:
-        return 'Groups not found'
-    
-    # check that each player has played all their games
-    for group in groups[event_name]:
-        for player in group:
-            validation = validate_player(player, games[player], group)
-            if validation is not None:
-                return validation
-    
-    return None
-
 glicko2_env = Glicko2(tau=0.5)
 stats = {'0': dict(), '3': dict(), '5': dict()}
 ratings = {'0': dict(), '3': dict(), '5': dict()}
@@ -81,7 +63,7 @@ def add_stats(player_row, win):
     stats[game_mode][player_name].append(player_stats)
     # create player's glicko2 entry if not exists
     if player_name not in ratings[game_mode]:
-        ratings[game_mode][player_name] = glicko2_env.create_rating(1500, 350, 0.06)
+        ratings[game_mode][player_name] = glicko2_env.create_rating(1500, 300, 0.06)
 
 # get names of all events in logs directory
 events_names = sorted([d for d in os.listdir('logs')])
@@ -144,11 +126,6 @@ for event_name in events_names:
         if loser_name not in rating_series:
             rating_series[loser_name] = list()
         rating_series[loser_name].append((LOSS, ratings[mode][winner_name]))
-    
-    # validate game groups. this guards against missing forfeits
-    vaidation_error = validate_groups(event_name, games)
-    if vaidation_error:
-        print('Warning in {} groups: {}'.format(event_name, vaidation_error))
     
     # rate glicko2 for event
     for player in rating_series:
