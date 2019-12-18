@@ -102,4 +102,6 @@ find $1 -type f \( -name '*.log' -o -name '*.csv' \) -print0 | xargs -0 sed -i -
     -e "s/ lexar / Lexar /g" \
     -e "s/ fftay / Tay|Z /g" \
     -e "s/ zatozi\.hpp / Shinnok /g" \
-    -e "s/ \*\<\]\:\-\)\|ZCrone / ZCrone /g"
+    -e "s/ \*\<\]\:\-\)\|ZCrone / ZCrone /g" \
+    -e "s/ \?thislife / h8 /g" \
+    -e "s/ yukon\|-sp4nk-\| / starch /g"
