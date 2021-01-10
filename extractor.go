@@ -43,10 +43,10 @@ func main() {
 				files = append(files, filepath.Join(arg, fileinfo.Name()))
 			}
 
-			outFileName = filepath.Join(fpath, fname+".ssv")
+			outFileName = filepath.Join(fpath, fname+".tsv")
 		} else {
 			files = append(files, filepath.Join(fpath, arg))
-			outFileName = filepath.Join(fpath, strings.TrimSuffix(fname, filepath.Ext(fname))+".ssv")
+			outFileName = filepath.Join(fpath, strings.TrimSuffix(fname, filepath.Ext(fname))+".tsv")
 		}
 
 		of, err := os.Create(outFileName)
@@ -54,6 +54,12 @@ func main() {
 			log.Fatal(err)
 		}
 		defer of.Close()
+		headers := []string{"Time", "Mode", "Map", "Name", "Frags", "Deaths", "Damage", "DamageDealt",
+		"Suicides", "TotalShots", "ShotsDealt", "FistDamage", "FistDamageDealt", "ShotgunDamage", "ShotgunDamageDealt", "ChaingunDamage", "ChaingunDamageDealt",
+		"RocketLauncherDamage", "RocketLauncherDamageDealt", "RifleDamage", "RifleDamageDealt", "GrenadeLauncherDamage", "GrenadeLauncherDamageDealt",
+		"PistolDamage", "PistolDamageDealt", "FistShots", "FistShotsDealt", "ShotgunShots", "ShotgunShotsDealt", "ChaingunShots", "ChaingunShotsDealt",
+		"RocketLauncherShots", "RocketLauncherShotsDealt", "RifleShots", "RifleShotsDealt", "GrenadeLauncherShots", "GrenadeLauncherShotsDealt", "PistolShots", "PistolShotsDealt"}
+		fmt.Fprintf(of, "%s\n", strings.Join(headers, "\t"))
 
 		for _, file := range files {
 			info, err = os.Stat(file)
@@ -113,12 +119,13 @@ func main() {
 				if !p.Connected || ((p.State < 0 || p.State > 4) && p.DamageDealt == 0) {
 					continue
 				}
-				fmt.Fprintf(of, "%d %d %s %s %d %d %d %d %d %d %d", g.Time, g.Mode, g.Map, p.Name, p.Frags, p.Deaths, p.Damage, p.DamageDealt, p.Suicides, p.TotalShots, p.ShotsDealt)
+
+				fmt.Fprintf(of, "%d\t%d\t%s\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d", g.Time, g.Mode, g.Map, p.Name, p.Frags, p.Deaths, p.Damage, p.DamageDealt, p.Suicides, p.TotalShots, p.ShotsDealt)
 				for i := 0; i < 7; i++ {
-					fmt.Fprintf(of, " %d %d", p.WeaponDamage[i], p.WeaponDamageDealt[i])
+					fmt.Fprintf(of, "\t%d\t%d", p.WeaponDamage[i], p.WeaponDamageDealt[i])
 				}
 				for i := 0; i < 7; i++ {
-					fmt.Fprintf(of, " %d %d", p.WeaponShots[i], p.WeaponShotsDealt[i])
+					fmt.Fprintf(of, "\t%d\t%d", p.WeaponShots[i], p.WeaponShotsDealt[i])
 				}
 				fmt.Fprintln(of)
 			}
