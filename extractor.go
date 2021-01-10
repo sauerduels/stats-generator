@@ -113,9 +113,12 @@ func main() {
 				if !p.Connected || ((p.State < 0 || p.State > 4) && p.DamageDealt == 0) {
 					continue
 				}
-				fmt.Fprintf(of, "%d %d %s %s %d %d %d %d %d", g.Time, g.Mode, g.Map, p.Name, p.Frags, p.Deaths, p.Damage, p.DamageDealt, p.Suicides)
+				fmt.Fprintf(of, "%d %d %s %s %d %d %d %d %d %d %d", g.Time, g.Mode, g.Map, p.Name, p.Frags, p.Deaths, p.Damage, p.DamageDealt, p.Suicides, p.TotalShots, p.ShotsDealt)
 				for i := 0; i < 7; i++ {
 					fmt.Fprintf(of, " %d %d", p.WeaponDamage[i], p.WeaponDamageDealt[i])
+				}
+				for i := 0; i < 7; i++ {
+					fmt.Fprintf(of, " %d %d", p.WeaponShots[i], p.WeaponShotsDealt[i])
 				}
 				fmt.Fprintln(of)
 			}
@@ -195,6 +198,10 @@ type Player struct {
 	WeaponDamage      [7]int
 	WeaponDamageDealt [7]int
 	LastWeapon        int
+	TotalShots        int
+	ShotsDealt        int
+	WeaponShots       [7]int
+	WeaponShotsDealt  [7]int
 	Connected         bool
 	State             int
 }
@@ -303,15 +310,19 @@ func parseMessage(msg *[]byte, g *Game) {
 		g.Players[attacker].LastWeapon = gun
 		g.Players[attacker].Damage += gunsDamage[gun]
 		g.Players[attacker].WeaponDamage[gun] += gunsDamage[gun]
+		g.Players[attacker].WeaponShots[gun] += 1
+		g.Players[attacker].TotalShots += 1
 	case 12: // N_DAMAGE
 		victim := p.GetInt()
 		attacker := p.GetInt()
 		damage := p.GetInt()
 		if attacker != victim {
 			g.Players[attacker].DamageDealt += damage
+			g.Players[attacker].ShotsDealt += 1
 		}
 		gun := g.Players[attacker].LastWeapon
 		g.Players[attacker].WeaponDamageDealt[gun] += damage
+		g.Players[attacker].WeaponShotsDealt[gun] += 1
 	case 11: // N_DIED
 		victim := p.GetInt()
 		attacker := p.GetInt()
